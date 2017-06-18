@@ -19,7 +19,7 @@ class FeatureExtractor:
             stopwords=set(customStopwords).union(self._stopwords)
         for sentence in word_sent:
             for word in sentence:
-                if word in stopwords:
+                if word not in stopwords:
                     freq[word]+=1
         m=float(max(freq.values()))
         for word in freq.keys():
@@ -32,7 +32,6 @@ class FeatureExtractor:
         text=article[0]
         title=article[1]
         sentences=sent_tokenize(text)
-        print sentences
         word_sent=[word_tokenize(s.lower()) for s in sentences]
         self._freq=self._compute_frequencies(word_sent,customStopwords)
         if n<0:
@@ -43,7 +42,7 @@ class FeatureExtractor:
     def _extractRawFrequencies(self,article):
         text=article[0]
         title=article[1]
-        sentenctecs=sent_tokenize(text)
+        sentences=sent_tokenize(text)
         word_sent=[word_tokenize(s.lower()) for s in sentences]
         freq=defaultdict(int)
         for s in word_sent:
@@ -96,7 +95,10 @@ def getTrainingData():
 def getTestingData():
     testUrl="https://www.washingtonpost.com/politics/help-wanted-why-republicans-wont-work-for-the-trump-administration/2017/06/17/61e3d33e-506a-11e7-b064-828ba60fbb98_story.html?utm_term=.848aee1f0126"
     testArticle=crawler.getWashPostText(testUrl,"article")
-    print testArticle[0]
+    print type(testArticle[0])
     fs=FeatureExtractor()
     testArticleSummary=fs._extractFeatures(testArticle, 25)
+    print testArticleSummary
     return testArticleSummary
+
+getTestingData()
