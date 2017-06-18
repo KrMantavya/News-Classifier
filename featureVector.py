@@ -48,7 +48,7 @@ class FeatureExtractor:
         for s in word_sent:
             for word in s:
                 if word not in self._stopwords:
-                    feq[word]+=1
+                    freq[word]+=1
         return freq
 
     def _summarize(self,article,n):
@@ -98,7 +98,25 @@ def getTestingData():
     print type(testArticle[0])
     fs=FeatureExtractor()
     testArticleSummary=fs._extractFeatures(testArticle, 25)
-    print testArticleSummary
+    #print testArticleSummary
     return testArticleSummary
 
-getTestingData()
+def getTechArticles():
+    washingtonPostSports="https://www.washingtonpost.com/sports/?nid=top_nav_sports&utm_term=.b8d5cc9afa06"
+    nytimesSports="https://www.nytimes.com/section/sports?WT.nav=page&action=click&contentCollection=Sports&module=HPMiniNav&pgtype=Homepage&region=TopBar"
+    washingtonPostTech="https://www.washingtonpost.com/business/technology/?nid=top_nav_tech&utm_term=.e44b05f06b09"
+    nytimesTech="https://www.nytimes.com/section/technology?WT.nav=page&action=click&contentCollection=Tech&module=HPMiniNav&pgtype=Homepage&region=TopBar"
+
+    washingtonPostTechArticles=crawler.scrapeSource(washingtonPostTech,'2017','getWashPostText','article')
+    #washingtonPostNonTechArticles=crawler.scrapeSource(washingtonPostSports,'2017','getWashPostText','article')
+    return washingtonPostTechArticles
+
+def getNonTechArticles():
+    washingtonPostSports="https://www.washingtonpost.com/sports/?nid=top_nav_sports&utm_term=.b8d5cc9afa06"
+    nytimesSports="https://www.nytimes.com/section/sports?WT.nav=page&action=click&contentCollection=Sports&module=HPMiniNav&pgtype=Homepage&region=TopBar"
+    washingtonPostTech="https://www.washingtonpost.com/business/technology/?nid=top_nav_tech&utm_term=.e44b05f06b09"
+    nytimesTech="https://www.nytimes.com/section/technology?WT.nav=page&action=click&contentCollection=Tech&module=HPMiniNav&pgtype=Homepage&region=TopBar"
+
+    #washingtonPostTechArticles=crawler.scrapeSource(washingtonPostTech,'2017','getWashPostText','article')
+    washingtonPostNonTechArticles=crawler.scrapeSource(washingtonPostSports,'2017','getWashPostText','article')
+    return washingtonPostNonTechArticles
